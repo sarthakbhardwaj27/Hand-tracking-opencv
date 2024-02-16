@@ -1,11 +1,11 @@
-import cv2
+import cv2 as cv
 import mediapipe as mp
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_hands = mp.solutions.hands
 
 #from webcam input
-cap = cv2.VideoCapture(0)
+cap = cv.VideoCapture(0)
 with mp_hands.Hands(
     model_complexity=0,
     min_detection_confidence=0.5,
@@ -19,12 +19,12 @@ with mp_hands.Hands(
             continue
         #to improve per formance, optionally mark the image as not writeable to pass by reference 
         image.flags.writeable = False
-        image = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
+        image = cv.cvtColor(image,cv.COLOR_BGR2RGB)
         results = hands.process(image)
 
         #draw the hand annotations on the image
         image.flags.writeable = True
-        image = cv2.cvtColor(image,cv2.COLOR_RGB2BGR)
+        image = cv.cvtColor(image,cv.COLOR_RGB2BGR)
 
         #initially set finger coint to 0 for each cap
         fingerCount = 0
@@ -63,19 +63,19 @@ with mp_hands.Hands(
                 )
 
             #display finger count
-            cv2.putText(
+            cv.putText(
                 image, 
                 str(fingerCount),
                 (50,450),
-                cv2.FONT_HERSHEY_SIMPLEX,
+                cv.FONT_HERSHEY_SIMPLEX,
                 3,
                 (255,0,0),
                 10
             )
 
             #display image
-            cv2.imshow('Gesture', image)
-            if cv2.waitKey(1) == ord('q'):
+            cv.imshow('Gesture', image)
+            if cv.waitKey(1) == ord('q'):
                 break
             cap.release()
-            cv2.destroyAllWindows()
+            cv.destroyAllWindows()
