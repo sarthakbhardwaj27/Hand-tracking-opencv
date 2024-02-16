@@ -48,3 +48,12 @@ This Python script captures video from the default camera (or specified camera i
 
 - Finally, the script closes all OpenCV windows using `destroyAllWindows()`.
 
+## V2.0 Hand Tracking
+
+- Learning Resource: https://developers.google.com/mediapipe/solutions/vision/gesture_recognizer#models
+
+### Aim: 
+
+To track hands and specifically fingertips so that we can use it for further implementation.
+
+
