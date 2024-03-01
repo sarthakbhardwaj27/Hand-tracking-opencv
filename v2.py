@@ -8,7 +8,7 @@ mp_hands = mp.solutions.hands
 cap = cv.VideoCapture(0)
 with mp_hands.Hands(
     model_complexity=0,
-    min_detection_confidence=0.5,
+    min_detection_confidence=0.8,
     min_tracking_confidence=0.5
 ) as hands:
     while cap.isOpened():
@@ -33,7 +33,7 @@ with mp_hands.Hands(
             for hand_landmarks in results.multi_hand_landmarks:
                 #get hand index to check label (left or right)
                 handIndex = results.multi_hand_landmarks. index(hand_landmarks)
-                handLabel = results.multi_handedness[handIndex].classifications[9].label
+                handLabel = results.multi_handedness[handIndex].classification[0].label
 
                 #set variables ot keep landmarks positions (x and y)
                 handLandmarks = []
@@ -59,7 +59,9 @@ with mp_hands.Hands(
                     image,
                     hand_landmarks,
                     mp_hands.HAND_CONNECTIONS, 
-                    mp_drawing_styles.get_default_hand_landmarks_style(),mp_drawing_styles.get_default_hand_connections_style()
+                    # mp_drawing_styles.get_default_hand_landmarks_style(),mp_drawing_styles.get_default_hand_connections_style()
+                    mp_drawing.DrawingSpec(color=(255,255,255), thickness=1,circle_radius=1),
+                    mp_drawing.DrawingSpec(color=(0,0,0), thickness=1, circle_radius=1)
                 )
 
             #display finger count
@@ -75,7 +77,7 @@ with mp_hands.Hands(
 
             #display image
             cv.imshow('Gesture', image)
-            if cv.waitKey(1) == ord('q'):
-                break
-            cap.release()
-            cv.destroyAllWindows()
+        if cv.waitKey(1) == ord('q'):
+            break
+    cap.release()
+    cv.destroyAllWindows()
